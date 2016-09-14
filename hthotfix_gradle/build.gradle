@@ -1,0 +1,47 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+configurations {
+    provided
+    provided.extendsFrom(compile)
+}
+
+
+compileJava{
+    sourceCompatibility = 1.7
+}
+
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    provided 'com.android.tools.build:gradle:1.5.0'
+    compile 'com.squareup.okio:okio:1.8.0'
+    compile 'commons-codec:commons-codec:1.6'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+task printBuildScriptClasspath << {
+    println project.buildscript.configurations.classpath.asPath
+}

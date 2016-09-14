@@ -1,0 +1,4 @@
+rootProject.name = 'ht-hotfix-gradle'
+
+include 'library'
+
